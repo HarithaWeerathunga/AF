@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3</title>
+</head>
+<body>
+
+<script>
+
+    /*
+    *
+    * 3. Write a function to call GitHub API (https://api.github.com/users) and get users.
+● Try to understand the functionality of Promises.
+● Print all users to console
+    *
+    *
+    *
+    * */
+
+    function fetchUsers(){
+        fetch('https://api.github.com/users').then(function (response) {
+            return response.json();
+
+        }).then(function (json) {
+            console.log(json);
+        });
+    }
+fetchUsers();
+
+    /*
+    *
+    *
+    * Try to return fetched users and print it in the caller
+    *
+    * */
+
+
+    function fetchUsers1() {
+        return fetch('https://api.github.com/users')
+            .then(response => response.json());
+    }
+
+    fetchUsers1().then(function (json) {
+       console.log(json);
+    });
+
+</script>
+
+
+</body>
+</html>
