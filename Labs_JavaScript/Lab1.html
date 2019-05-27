@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    
+    /*
+    * Create a function as a variable (function expression) that prints 
+    * ‘Hello World’ to console
+and another function which accepts a variable. 
+The argument passed to the second
+function should be executed as a function inside the body.
+ Call the second function
+passing the first function as the argument. Check the output.
+    * */
+
+    var hello = {
+        "msg" : "hello",
+        "fun" : (msg) => {
+            console.log(msg)
+        }
+    }
+
+    function sayHello(object) {
+        object.fun(object.msg)
+    }
+
+
+    sayHello(hello)
+
+
+    
+    
+</script>
+
+<script>
+
+    /*
+    *Use curly brackets to create JSON like
+     *  JavaScript object and add properties and functions
+to the object.
+    *
+    *
+    * */
+
+
+
+</script>
+
+<script>
+
+    /*
+    *
+    * Understand the ‘this’ keyword in JavaScript.
+● Declare a global variable named vehicleName in the window object
+● Declare a method named printVehicleName to print out the vehicle name
+● Declare an object named Vehicle(using object literal notation) which have a
+variable called vehicleName and declare a function named getVehicleName and
+assign it with the printVehicleName
+● Execute the printVehicleName function and the getVehicleName functions
+ to see
+the results
+● Correct the getVehicleName to print out the global variable
+ vehicleName using
+the this keyword
+    *
+    * */
+
+    var vehicleName = "car"
+
+    function printVehicleName(){
+        console.log(this.vehicleName)
+    }
+
+   // printVehicleName()
+
+    var Vehicle = {
+
+        vehicleName : "van",
+        getVehicleName : printVehicleName
+
+    }
+
+    Vehicle.getVehicleName()
+    printVehicleName()
+
+</script>
+
+<script>
+
+    /*
+    * Create a separate function using JavaScript closure
+     * which accepts the tax percentage and
+returns a function which accepts the amount and returns the
+amount after adding tax
+percentage. Try adding tax percentage to ‘this’ object and
+check if it works
+    * */
+
+    function calcTax(tax){
+
+        function taxAmount(amount) {
+            return amount + tax;
+        }
+
+        return taxAmount;
+    }
+
+
+    var am = calcTax(10);
+    console.log(am(5));
+
+</script>
+
+<script>
+
+    /*
+    * Write a function to call GitHub API
+    * (https://api.github.com/users)
+    * and get users and
+return the users to the caller
+    * */
+
+    function githubAPI(callback){
+        $getJSON("https://api.github.com/users", callback);
+    }
+
+    function userEx(data) {
+        data.forEach(element => {
+            if(element.id == 1){
+                console.log(element.url)
+            }
+        });
+    }
+
+    githubAPI(userEx());
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

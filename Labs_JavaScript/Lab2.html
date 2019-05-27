@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+
+/*
+* Understand the ‘this’ keyword in JavaScript.
+● Declare a variable named vehicleName in the window object (var) and assign value
+‘Toyota’ to it. This a global variable declaration.
+● Declare a function named printVehicleNameOuter
+ to print out the vehicle name. (Use
+this.vehicleName, since the variable you
+declared in the above step is a global variable
+assigned to window object. In global scope this points to window object. In the browser
+scope global object is window object and all the global variable and function
+declarations are assigned to window object).
+○ Test this by printing this and window object to console. And verify that they
+both prints window object.
+○ Check the vehicleName and the printVehicleNameOuter you declared are in the
+printed window object.
+● Call the function printVehicleNameOuter and verify it is printing ‘Toyota’.
+● Declare an object named Vehicle (using object literal notation ‘{}’) which have a variable
+called vehicleName and assigned the value ‘Nissan’ to it. Declare a function named
+printVehicleNameInner and assign printVehicleNameOuter to it.
+● Execute the printVehicleNameInner function and see the results.
+* */
+
+//1
+    var vehicleName = 'Toyota';
+
+    function printVehicleNameOuter() {
+        console.log(this.vehicleName);
+    }
+
+    printVehicleNameOuter();
+
+    console.log(this);
+
+    var vehicle = {
+        vehicleName : 'Axio',
+        printVehicleNameInner : printVehicleNameOuter
+    };
+
+    vehicle.printVehicleNameInner();
+
+    /*
+    * Change the function printVehicleNameInner to return anonymous function (function
+without name) which prints this.vehicleName (printVehicleNameInner function body
+should return another function).
+● Call printVehicleNameInner function and assigned the return value to variable named
+execute.
+● Call the function execute. Understand that execute is assigned the function returned
+from printVehicleNameInner function.
+    * */
+
+    var vehicle1 = {
+        vehicleName : 'Nissan',
+        printVehicleNameInner:function () {
+            return function () {
+                console.log(this.vehicleName);
+            }
+        }
+    };
+
+    var execute1 = vehicle1.printVehicleNameInner();
+    execute1();
+
+    //Further try to parameterize these functions and pass arguments using call and bind methods.
+
+    var execute2 = execute1.bind(vehicle1);
+    execute2();
+
+
+    </script>
+
+<script>
+    //2
+/*
+*
+* Understanding JavaScript closure.
+● Create a function named taxCalculator which accepts the tax percentage as an
+argument.
+● taxCalculator should return another function which accepts the amount as an argument
+and returns calculated tax percentage (amount*taxPercentage/100).
+● Call taxCalculator function and assigned the returned value to a variable.
+● Now, call that variable (it is a function now) with different amounts and get tax value
+calculated.
+● Notice how you have encapsulated the tax percentage and calculation from consumers.
+Now consumers can calculate the tax percentage without the knowledge of tax
+percentage and calculation.
+*
+* */
+
+
+
+    console.log("Question 2");
+
+    function taxCalculator(taxPercentage) {
+
+        var tp = taxPercentage;
+        return function (amount) {
+            return amount * tp / 100;
+        }
+    }
+
+    var calculator = taxCalculator(10);
+    console.log(calculator(90));
+    console.log(calculator(99));
+
+
+
+</script>
+
+
+
+<script>
+    //3
+
+/*
+*Write a function to call GitHub API (https://api.github.com/users) and get users.
+● Try to understand the functionality of Promises.
+● Print all users to console.
+*
+* */
+
+    console.log("Question 3");
+
+    function fetchUsers(){
+        fetch('https://api.github.com/users').then(function (response) {
+
+            return response.json();
+            
+        }).then(function (json) {
+           console.log(json);
+        });
+    }
+
+    fetchUsers();
+
+    //Try to return fetched users and print it in the caller
+
+    function fetchUser(){
+        return fetch('https://api.github.com/users')
+            .then(response => response.json());
+    }
+
+    fetchUser().then(function (json){
+
+        console.log(json);
+    });
+
+
+    fetchUser();
+
+
+
+    //4
+
+/*
+*
+*Classes in JavaScript
+● Create a class named Vehicle using a function.
+● Add property named type to the class (this.type).
+ Assign a value to that variable using a
+constructor argument.
+● Add a function to its prototype named drive
+ (Vehicle.prototype.print...). Print ‘Vehicle is
+driving’ in the function body.
+● Add VehicleCount (Vehicle.VehicleCount)
+ as a static variable.
+● Increase the number of
+ VehicleCount (Vehicle.VehicleCount++) by one inside the
+constructor.
+● Create an object from Vehicle class
+(new Vehicle) and check static variable value, type
+property value and function works.
+● Create a class named Car and extend
+ the class Vehicle (Car.prototype =
+Object.create(Vehicle.prototype); Car.prototype.constructor = Car).
+● Add a new method called balanceWheels
+to Car and print ‘Wheels are balanced’ in the
+function body.
+● Call balanceWheels and drive methods
+using a car object and verify the functionality.
+● Check the static variable value and
+type variable value. Notice that they are not correct.
+● The reason for the above behavior is
+ that we didn’t call the parent constructor from the
+child class. Do this by using the call
+method (in Car constructor function Vehicle.call(this,
+type);
+● Re-validate the values.
+*
+* */
+    function Vehicle(type){
+
+
+        Vehicle.VehicleCount++;
+        this.type = type;
+
+    }
+
+
+    Vehicle.VehicleCount = 0;
+
+
+    Vehicle.prototype.drive = function () {
+      console.log('Vehicle is driving')
+    };
+
+    var vehicle = new Vehicle('Toyota Axio');
+
+    function Car(type) {
+        Vehicle.call(this, type);
+    }
+
+    Car.prototype = Object.create(Vehicle.prototype);
+    Car.prototype.constructor = Car;
+    Car.prototype.balanceWheels = function () {
+
+        console.log('Wheels are balanced');
+    };
+
+    var car = new Car('Lamborghini');
+
+    car.drive();
+    car.balanceWheels();
+
+    //Declare variables using const and let keywords
+    // and observe the difference.
+
+    let nameVehicle = 'Toyota';
+    nameVehicle = 'Nissan';
+    const COUNTRY = 'Japan';
+
+    //6 Use arrow functions
+
+    console.log("Question 6");
+
+    function fetchUsersArrow() {
+        return fetch('https://api.github.com/users')
+            .then(response => response.json());
+    }
+
+    fetchUsersArrow().then(json => {
+
+        console.log(json);
+    });
+
+    //Try to understand the difference between using curly brackets and not using them in arrow
+    //functions body.
+
+    //7 Try exercise 3 with async/await.
+
+    console.log("Questoin 7");
+
+    async function fetchUsersAsync(){
+
+        const response = await fetch('https://api.github.com/users');
+        const json = await response.json();
+        console.log(json);
+    }
+
+    fetchUsersAsync();
+
+
+    //8 Try exercise 4 class, extends, get, set and super keywords.
+
+    console.log("Question 8");
+
+    class Aeroplanes{
+
+        constructor(type){
+            Aeroplanes.AeroplanesCount++;
+            this.type = type;
+        }
+
+        fly(){
+            console.log('Aeroplane is flying');
+        }
+    }
+
+    Aeroplanes.AeroplanesCount = 0;
+    const aeroplane = new Aeroplanes('Air Bus');
+    aeroplane.fly();
+
+    console.log(Aeroplanes.AeroplanesCount);
+
+    class Jet extends Aeroplanes{
+        constructor(type){
+            super(type);
+        }
+
+        balanceWings(){
+            console.log('Wings are balanced');
+        }
+    }
+
+    const mig = new Jet('Mig 27');
+    mig.fly();
+    mig.balanceWings();
+    console.log(Aeroplanes.AeroplanesCount);
+
+
+    //Discuss the use of static keyword
+</script>
+
+</body>
+</html>
